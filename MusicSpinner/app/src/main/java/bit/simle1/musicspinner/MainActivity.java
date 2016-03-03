@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,13 +60,17 @@ public class MainActivity extends AppCompatActivity {
             {
                 txtEnroll.setText("You are now enrolled for " + rdoBtnAccordion.getText() + " lessons in " + monthPicked);
             }
-            if (rdoBtnBassoon.isChecked())
+            else if (rdoBtnBassoon.isChecked())
             {
                 txtEnroll.setText("You are now enrolled for " + rdoBtnBassoon.getText() + " lessons in " + monthPicked);
             }
-            if (rdoBtnCello.isChecked())
+            else if (rdoBtnCello.isChecked())
             {
                 txtEnroll.setText("You are now enrolled for " + rdoBtnCello.getText() + " lessons in " + monthPicked);
+            }
+            else
+            {
+                Toast.makeText(MainActivity.this, "No instrument was selected!", Toast.LENGTH_SHORT).show();
             }
         }
     }
