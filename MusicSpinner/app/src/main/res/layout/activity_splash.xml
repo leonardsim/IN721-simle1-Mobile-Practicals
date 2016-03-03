@@ -22,7 +22,7 @@
         android:id="@+id/textView3"
         android:textSize="40dp"
         android:gravity="center"
-        android:textColor="#eba82b"
+        android:textColor="#ff8400"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textStyle="bold" />
