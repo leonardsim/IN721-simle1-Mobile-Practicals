@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Button creates the handler on click
         btnImage.setOnClickListener(new onClickBtnImgHandler());
+        btnList.setOnClickListener(new onClickBtnListHandler());
     }
 
     public class onClickBtnImgHandler implements View.OnClickListener{
@@ -35,10 +36,30 @@ public class MainActivity extends AppCompatActivity {
             // Begin transaction by obtaining FragmentTransaction object
             FragmentTransaction ft = fm.beginTransaction();
 
-            //Replaces the fragment_container with the dynamicFragment object
+            // Replaces the fragment_container with the dynamicFragment object
             ft.replace(R.id.fragment_container, dynamicFragment);
 
-            //Commits the changes
+            // Commits the changes
+            ft.commit();
+        }
+    }
+
+    public class onClickBtnListHandler implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            // Create instance of list fragment class
+            Fragment dynamicFragment = new ShowList();
+            // Fragment Manager used to replace the placeholder with the Fragment
+            FragmentManager fm = getFragmentManager();
+
+            // Begin transaction by obtaining FragmentTransaction object
+            FragmentTransaction ft = fm.beginTransaction();
+
+            // Replaces the fragment_container with the dynamicFragment object
+            ft.replace(R.id.fragment_container, dynamicFragment);
+
+            // Commits the changes
             ft.commit();
         }
     }
