@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction ft = fm.beginTransaction();
 
             // Replaces the fragment_container with the dynamicFragment object
-            ft.replace(R.id.fragment_container, dynamicFragment);
+            ft.replace(R.id.img_container, dynamicFragment);
 
             // Commits the changes
             ft.commit();
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction ft = fm.beginTransaction();
 
             // Replaces the fragment_container with the dynamicFragment object
-            ft.replace(R.id.fragment_container, dynamicFragment);
+            ft.replace(R.id.list_container, dynamicFragment);
 
             // Commits the changes
             ft.commit();
