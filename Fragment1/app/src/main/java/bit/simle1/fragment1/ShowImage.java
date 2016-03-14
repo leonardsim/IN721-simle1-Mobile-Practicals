@@ -16,6 +16,7 @@ public class ShowImage extends Fragment {
     // LayoutInflater inflater: a system object that knows how to translate XML into controls
     // ViewGroup container: Activity who is instantiating the fragment
     // Bundle savedInstanceState: state information if this Fragment is coming back from Pause or Stop
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState)
