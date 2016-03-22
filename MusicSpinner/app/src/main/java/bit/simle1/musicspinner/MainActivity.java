@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    AlertBuilderFragment confirmMusic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,5 +75,40 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "No instrument was selected!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public String getInstrumentStr()
+    {
+        // Create references for all 3 radiobuttons
+        RadioButton rdoBtnAccordion = (RadioButton) findViewById(R.id.rdoBtnAccordion);
+        RadioButton rdoBtnBassoon = (RadioButton) findViewById(R.id.rdoBtnBassoon);
+        RadioButton rdoBtnCello = (RadioButton) findViewById(R.id.rdoBtnCello);
+
+        // Create string to save message
+        String message;
+
+        // Created reference to be able to grab the value from the spinner
+        Spinner spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
+        String monthPicked = spinnerMonth.getSelectedItem().toString();
+
+        // Check if radio buttons have been checked
+        if (rdoBtnAccordion.isChecked())
+        {
+            message = "You are now enrolled for " + rdoBtnAccordion.getText() + " lessons in " + monthPicked;
+        }
+        else if (rdoBtnBassoon.isChecked())
+        {
+            message = "You are now enrolled for " + rdoBtnBassoon.getText() + " lessons in " + monthPicked;
+        }
+        else if (rdoBtnCello.isChecked())
+        {
+            message = "You are now enrolled for " + rdoBtnCello.getText() + " lessons in " + monthPicked;
+        }
+        else
+        {
+            message = "No instrument was selected!";
+        }
+
+        return message;
     }
 }
