@@ -1,5 +1,6 @@
 package bit.simle1.musicspinner;
 
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create enroll button reference and the listener
         Button btnEnroll = (Button) findViewById(R.id.btnEnroll);
-        btnEnroll.setOnClickListener(new btnEnrollHandler());
+        btnEnroll.setOnClickListener(new CreateFragmentButtonHandler());
 
         // Create spinner reference
         Spinner spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
@@ -128,6 +129,17 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             txtEnroll.setText("Oh well.....");
+        }
+    }
+
+    public class CreateFragmentButtonHandler implements View.OnClickListener
+    {
+
+        @Override
+        public void onClick(View v) {
+            confirmMusic = new AlertBuilderFragment();
+            FragmentManager fm = getFragmentManager();
+            confirmMusic.show(fm, "confirm");
         }
     }
 }
