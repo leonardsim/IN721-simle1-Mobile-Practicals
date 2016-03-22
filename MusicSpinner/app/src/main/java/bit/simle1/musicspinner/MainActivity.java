@@ -111,4 +111,23 @@ public class MainActivity extends AppCompatActivity {
 
         return message;
     }
+
+    public void giveMeMyData(boolean enroll)
+    {
+        //Dismisses the dialog
+        confirmMusic.dismiss();
+
+        // Create reference for TextView
+        TextView txtEnroll = (TextView) findViewById(R.id.txtEnroll);
+
+        // If enroll returns true then set the textView's text
+        if (enroll)
+        {
+            txtEnroll.setText(getInstrumentStr());
+        }
+        else
+        {
+            txtEnroll.setText("Oh well.....");
+        }
+    }
 }
