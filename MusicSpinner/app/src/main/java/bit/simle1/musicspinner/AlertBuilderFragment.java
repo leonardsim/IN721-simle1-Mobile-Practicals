@@ -14,6 +14,21 @@ public class AlertBuilderFragment extends DialogFragment {
     // Empty constructor
     public AlertBuilderFragment(){}
 
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setIcon(R.drawable.music);
+        builder.setTitle("Do you want to enroll?");
+        builder.setPositiveButton("Yes", new YesButtonHandler());
+        builder.setNegativeButton("No", new NoButtonHandler());
+
+        Dialog customDialog = builder.create();
+
+        return customDialog;
+    }
+
     public class YesButtonHandler implements DialogInterface.OnClickListener
     {
         @Override
