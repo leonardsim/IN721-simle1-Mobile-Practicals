@@ -41,7 +41,6 @@
         android:textColor="@color/fontColor"
         android:textStyle="bold"
         android:layout_marginTop="70dp"
-        android:gravity="center"
         android:layout_below="@+id/textView"
         android:layout_alignRight="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
