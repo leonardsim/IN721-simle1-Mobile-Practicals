@@ -10,6 +10,8 @@ import android.view.ViewGroup;
  * Created by Asus on 29/3/2016.
  */
 public class CorrectFeedbackFragment extends Fragment{
+    FeedbackActivity feedback;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -20,4 +22,6 @@ public class CorrectFeedbackFragment extends Fragment{
 
         return fragmentView;
     }
+
+
 }

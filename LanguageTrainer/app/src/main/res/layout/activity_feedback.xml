@@ -10,4 +10,20 @@
     tools:context="bit.simle1.languagetrainer.FeedbackActivity"
     android:id="@+id/feedback_container">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NEXT QUESTION"
+        android:id="@+id/btnNextQues"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvFeedback"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_feedback" />
 </RelativeLayout>

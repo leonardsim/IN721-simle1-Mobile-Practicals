@@ -12,8 +12,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please select the correct article:"
-        android:id="@+id/textView3"
+        android:text="Question n"
+        android:id="@+id/tvQnum"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -72,16 +72,19 @@
         android:layout_alignRight="@+id/btnNext"
         android:layout_alignEnd="@+id/btnNext" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/textView4"
-        android:layout_alignRight="@+id/radioGroup"
-        android:layout_alignEnd="@+id/radioGroup"
-        android:id="@+id/fragment_container"></LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Noun"
+        android:id="@+id/tvQNoun"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivQuizImage"
+        android:layout_below="@+id/tvQnum"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

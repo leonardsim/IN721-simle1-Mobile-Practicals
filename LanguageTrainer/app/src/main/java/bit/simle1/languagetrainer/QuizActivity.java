@@ -1,5 +1,6 @@
 package bit.simle1.languagetrainer;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -29,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
     Fragment dynamicFragment;
     FragmentManager fm;
     FragmentTransaction ft;
+    DialogFeedback dialogFeedback;
 
     //Declare Resource
     Resources resources;
@@ -37,6 +39,9 @@ public class QuizActivity extends AppCompatActivity {
     int totalScore;
     int currentQuiz;
 
+    // Used to pass info to fragment
+    Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +49,20 @@ public class QuizActivity extends AppCompatActivity {
 
         //Initialise all attributes
         questionList = new ArrayList<>();
+        resources = getResources();
         totalScore = 0;
         currentQuiz = 0;
-        resources = getResources();
+        bundle = new Bundle();
+        fm = getFragmentManager();
+        dialogFeedback = new DialogFeedback();
 
         //Set the fragment to replace the container with the quiz image layout
+        /*
         dynamicFragment = new QuizImageFragment();
         fm = getFragmentManager();
         ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, dynamicFragment);
-        ft.commit();
+        ft.commit();*/
 
         // Call setQuestion & shuffleQuestion method
         setQuestionToList();
@@ -70,6 +79,7 @@ public class QuizActivity extends AppCompatActivity {
     {
         @Override
         public void onClick(View v) {
+
             // Set question
             Question currentQues = questionList.get(currentQuiz);
 
@@ -150,14 +160,39 @@ public class QuizActivity extends AppCompatActivity {
     // Will set the imageQuiz, question num, and the noun
     public void setQuestion()
     {
+        if (currentQuiz > 10)
+        {
+            Intent scoreIntent = new Intent(QuizActivity.this,ScoreActivity.class);
+
+            scoreIntent.putExtra("userTotalScore", totalScore);
+
+            startActivity(scoreIntent);
+        }
+        else
+        {
+            ImageView imageQuiz = (ImageView)findViewById(R.id.ivQuizImage);
+            TextView txtNumQues = (TextView) findViewById(R.id.tvQnum);
+            TextView txtNoun = (TextView) findViewById(R.id.tvQNoun);
+
+            Question currentQues = (Question) questionList.get(currentQuiz);
+
+            txtNoun.setText(currentQues.getNoun());
+
+            txtNumQues.setText("Question " + (currentQuiz + 1));
+
+            imageQuiz.setImageDrawable(currentQues.getImage());
+        }
+
+
+        /*
         QuizImageFragment mFragment = new QuizImageFragment();
         Question currentQues = questionList.get(currentQuiz);
 
-        mFragment.changeImg(currentQues);
+        mFragment.changeImg(currentQues.getImage());
 
         mFragment.changeNoun(questionList.get(currentQuiz).getNoun());
 
-        mFragment.changeQuestionNo(currentQuiz);
+        mFragment.changeQuestionNo(currentQuiz);*/
 
         //Create reference and set the imageQuiz depending on the currentQuiz number
         /*
@@ -180,24 +215,42 @@ public class QuizActivity extends AppCompatActivity {
     // Will go to the feedback activity and increment the totalScore if answer is true
     public void goToFeedback(boolean answer)
     {
-        Intent changeFeedbackIntent = new Intent(QuizActivity.this, FeedbackActivity.class);
+        //Intent changeFeedbackIntent = new Intent(QuizActivity.this, FeedbackActivity.class);
 
+        // Loads bundle with feedback depending on answer
         if (answer == true)
         {
             // Increment score
             totalScore++;
+            bundle.putString("Feedback", "Correct!");
 
-            changeFeedbackIntent.putExtra("userAnswer", answer);
+            /*changeFeedbackIntent.putExtra("userAnswer", answer);
             changeFeedbackIntent.putExtra("userScore", totalScore);
 
-            startActivity(changeFeedbackIntent);
+            startActivity(changeFeedbackIntent);*/
         }
         else
         {
-            changeFeedbackIntent.putExtra("userAnswer", answer);
+            bundle.putString("Feedback", "Incorrect!");
+            /*changeFeedbackIntent.putExtra("userAnswer", answer);
             changeFeedbackIntent.putExtra("userScore", totalScore);
 
-            startActivity(changeFeedbackIntent);
+            startActivity(changeFeedbackIntent);*/
         }
+
+        // Set arguements of fragment to contain bundle
+        dialogFeedback.setArguments(bundle);
+
+        // Pass control to fragment
+        dialogFeedback.show(fm, "tag");
+    }
+
+    public void nextQuestion()
+    {
+        dialogFeedback.dismiss();
+
+        currentQuiz++;
+
+        setQuestion();
     }
 }
