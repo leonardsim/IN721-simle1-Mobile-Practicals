@@ -1,6 +1,7 @@
 package bit.simle1.languagetrainer;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 /**
  * Created by Asus on 29/3/2016.
@@ -9,12 +10,12 @@ public class Question {
     //Attributes
     private String article;
     private String noun;
-    private Bitmap image;
+    private Drawable image;
     private String userAnswer;
     private boolean userCorrect;
 
     //Constructor
-    public Question(String article, String noun, Bitmap image)
+    public Question(String article, String noun, Drawable image)
     {
         this.setArticle(article);
         this.setNoun(noun);
@@ -54,11 +55,11 @@ public class Question {
         this.noun = noun;
     }
 
-    public Bitmap getImage() {
+    public Drawable getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(Drawable image) {
         this.image = image;
     }
 }
