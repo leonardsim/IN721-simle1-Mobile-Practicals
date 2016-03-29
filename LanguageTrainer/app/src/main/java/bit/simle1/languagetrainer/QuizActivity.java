@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +19,7 @@ public class  QuizActivity extends AppCompatActivity {
     //Declare a list of question
     List<Question> questionList;
 
-    //Declare fragment and fragment manager
+    //Declare fragment, fragment manager and fragment transaction
     Fragment dynamicFragment;
     FragmentManager fm;
     FragmentTransaction ft;
@@ -32,7 +33,12 @@ public class  QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        //Set the fragment
+        //Initialise all attributes
+        questionList = new ArrayList<>();
+        totalScore = 0;
+        currentQuiz = 0;
+
+        //Set the fragment to replace the container with the quiz image layout
         dynamicFragment = new QuizImageFragment();
         fm = getFragmentManager();
         ft = fm.beginTransaction();
@@ -41,5 +47,9 @@ public class  QuizActivity extends AppCompatActivity {
 
     }
 
-    
+    public void setQuestion()
+    {
+
+    }
+
 }
