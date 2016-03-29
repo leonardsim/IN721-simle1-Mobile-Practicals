@@ -74,24 +74,28 @@ public class  QuizActivity extends AppCompatActivity {
     }
 
     // Randomizes 2 numbers that will be used to swap the question in the questionList
+    // This will be done 100 times, which will cause all questions to be 'properly' randomed 
     public void shuffleQuestion()
     {
-        // Declare & Initialise random
-        Random rand = new Random();
-
-        // Create 2 int variables that will save a random number from 0-10
-        int randQuesOne = rand.nextInt(11);
-        int randQuesTwo = rand.nextInt(11);
-
-        // If both have the same random number, then re-roll till random number is no longer the same
-        while (randQuesOne == randQuesTwo)
+        for(int i = 0; i < 100; i++)
         {
-            randQuesOne = rand.nextInt(11);
-        }
+            // Declare & Initialise random
+            Random rand = new Random();
 
-        // Swap algorithm
-        Question tempQues = (Question) questionList.get(randQuesOne);
-        questionList.set(randQuesOne, questionList.get(randQuesTwo));
-        questionList.set(randQuesTwo, tempQues);
+            // Create 2 int variables that will save a random number from 0-10
+            int randQuesOne = rand.nextInt(11);
+            int randQuesTwo = rand.nextInt(11);
+
+            // If both have the same random number, then re-roll till random number is no longer the same
+            while (randQuesOne == randQuesTwo)
+            {
+                randQuesOne = rand.nextInt(11);
+            }
+
+            // Swap algorithm
+            Question tempQues = (Question) questionList.get(randQuesOne);
+            questionList.set(randQuesOne, questionList.get(randQuesTwo));
+            questionList.set(randQuesTwo, tempQues);
+        }
     }
 }
