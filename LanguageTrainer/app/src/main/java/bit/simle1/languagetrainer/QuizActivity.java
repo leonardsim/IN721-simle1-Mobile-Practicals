@@ -3,11 +3,15 @@ package bit.simle1.languagetrainer;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -53,8 +57,44 @@ public class  QuizActivity extends AppCompatActivity {
         // Call setQuestion & shuffleQuestion method
         setQuestionToList();
         shuffleQuestion();
+        setQuestion();
 
 
+    }
+
+
+    public class btnNextClickHandler implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            // Set question
+            Question currentQues = questionList.get(currentQuiz);
+
+            // Create reference for all radio buttons
+            RadioButton rdoDer = (RadioButton) findViewById(R.id.rdoDer);
+            RadioButton rdoDas = (RadioButton) findViewById(R.id.rdoDas);
+            RadioButton rdoDie = (RadioButton) findViewById(R.id.rdoDie);
+
+            if (rdoDer.isChecked())
+            {
+                currentQues.setUserAnswer("Der");
+                goToFeedback(currentQues.checkIfUserCorrect());
+            }
+            else if (rdoDie.isChecked())
+            {
+                currentQues.setUserAnswer("Die");
+                goToFeedback(currentQues.checkIfUserCorrect());
+            }
+            else if (rdoDas.isChecked())
+            {
+                currentQues.setUserAnswer("Das");
+                goToFeedback(currentQues.checkIfUserCorrect());
+            }
+            else
+            {
+                Toast.makeText(QuizActivity.this, "Please select an article.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     // Adds questions to the questionList
@@ -118,5 +158,22 @@ public class  QuizActivity extends AppCompatActivity {
         //Create reference and set the Question noun
         TextView txtNoun = (TextView) findViewById(R.id.txtNoun);
         txtNoun.setText(questionList.get(currentQuiz).getNoun());
+    }
+
+    // Will go to the feedback activity and increment the totalScore if answer is true
+    public void goToFeedback(boolean answer)
+    {
+        Intent feedbackIntent = new Intent(QuizActivity.this, FeedbackActivity.class);
+
+        if (answer == true)
+        {
+            // Increment score
+            totalScore++;
+            startActivity(feedbackIntent);
+        }
+        else
+        {
+            startActivity(feedbackIntent);
+        }
     }
 }
