@@ -50,10 +50,15 @@ public class  QuizActivity extends AppCompatActivity {
         ft.replace(R.id.fragment_container, dynamicFragment);
         ft.commit();
 
+        // Call setQuestion & shuffleQuestion method
+        setQuestionToList();
+        shuffleQuestion();
+
+
     }
 
     // Adds questions to the questionList
-    public void setQuestion()
+    public void setQuestionToList()
     {
         // Masculine Article
         questionList.add(new Question("Der", "Apfel (Apple)", resources.getDrawable(R.drawable.der_apfel)));
@@ -74,7 +79,7 @@ public class  QuizActivity extends AppCompatActivity {
     }
 
     // Randomizes 2 numbers that will be used to swap the question in the questionList
-    // This will be done 100 times, which will cause all questions to be 'properly' randomed 
+    // This will be done 100 times, which will cause all questions to be 'properly' randomed
     public void shuffleQuestion()
     {
         for(int i = 0; i < 100; i++)
@@ -97,5 +102,21 @@ public class  QuizActivity extends AppCompatActivity {
             questionList.set(randQuesOne, questionList.get(randQuesTwo));
             questionList.set(randQuesTwo, tempQues);
         }
+    }
+
+    // Will set the imageQuiz, question num, and the noun
+    public void setQuestion()
+    {
+        //Create reference and set the imageQuiz depending on the currentQuiz number
+        ImageView imageQuiz = (ImageView) findViewById(R.id.imgQuiz);
+        imageQuiz.setImageDrawable(questionList.get(currentQuiz).getImage());
+
+        //Create reference and set the Question number
+        TextView txtNumQues = (TextView) findViewById(R.id.txtNumQues);
+        txtNumQues.setText("Question " + currentQuiz);
+
+        //Create reference and set the Question noun
+        TextView txtNoun = (TextView) findViewById(R.id.txtNoun);
+        txtNoun.setText(questionList.get(currentQuiz).getNoun());
     }
 }
