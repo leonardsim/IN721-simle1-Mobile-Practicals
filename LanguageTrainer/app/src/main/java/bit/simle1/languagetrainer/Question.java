@@ -1,6 +1,5 @@
 package bit.simle1.languagetrainer;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -26,7 +25,7 @@ public class Question {
     // Checks to see if user's answer is correct
     public boolean checkIfUserCorrect()
     {
-        if (userAnswer == article)
+        if (getUserAnswer() == article)
         {
             userCorrect = true;
         }
@@ -61,5 +60,13 @@ public class Question {
 
     public void setImage(Drawable image) {
         this.image = image;
+    }
+
+    public String getUserAnswer() {
+        return userAnswer;
+    }
+
+    public void setUserAnswer(String userAnswer) {
+        this.userAnswer = userAnswer;
     }
 }
