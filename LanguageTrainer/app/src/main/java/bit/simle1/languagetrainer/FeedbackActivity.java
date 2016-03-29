@@ -16,18 +16,46 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
+        retrieveData();
+
         Button btnCorrect = (Button) findViewById(R.id.btnCorrectNext);
         Button btnIncorrect = (Button) findViewById(R.id.btnIncorrectNext);
+
+        btnCorrect.setOnClickListener(new onClickBtnHandler());
+        btnIncorrect.setOnClickListener(new onClickBtnHandler());
     }
 
-    public class onClickBtnCorrectHandler implements View.OnClickListener{
+    public class onClickBtnHandler implements View.OnClickListener{
 
         @Override
         public void onClick(View v) {
+            // Fetch intent
+            Intent launchIntent = getIntent();
 
+            // Retrieve the data via key
+            int userScore = launchIntent.getIntExtra("userScore", 0);
+
+            if (userScore > 10)
+            {
+                //Setup intent to move to the results screen
+                Intent scoreIntent = new Intent(FeedbackActivity.this,ScoreActivity.class);
+
+                //Load extra data about user score into the intent
+                scoreIntent.putExtra("userTotalScore", userScore);
+
+                //Give control to result screen
+                startActivity(scoreIntent);
+            }
+            else
+            {
+                // Goes back to Quiz Activity if userScore is still less than 10
+                Intent quizIntent = new Intent(FeedbackActivity.this, QuizActivity.class);
+                startActivity(quizIntent);
+            }
         }
     }
 
+    // Retrieves the data from QuizActivity based on keyword and will create the appropriate fragment
     public void retrieveData()
     {
         // Fetch intent
@@ -38,10 +66,15 @@ public class FeedbackActivity extends AppCompatActivity {
 
         if (userAnswer == true)
         {
-
+            correctFragment();
+        }
+        else
+        {
+            incorrectFragment();
         }
     }
 
+    // Replaces the container with the correct fragment
     public void correctFragment()
     {
         // Create instance of correct feedback fragment class
@@ -60,6 +93,7 @@ public class FeedbackActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    // Replaces the container with the incorrect fragment
     public void incorrectFragment()
     {
         // Create instance of correct feedback fragment class
