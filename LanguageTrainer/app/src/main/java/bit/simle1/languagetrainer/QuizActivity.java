@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class  QuizActivity extends AppCompatActivity {
+public class QuizActivity extends AppCompatActivity {
 
     //Declare a list of question
     List<Question> questionList;
@@ -115,7 +115,7 @@ public class  QuizActivity extends AppCompatActivity {
         questionList.add(new Question("Die", "Milch (Milk)", resources.getDrawable(R.drawable.die_milch)));
         questionList.add(new Question("Die", "Strasse (Street)", resources.getDrawable(R.drawable.die_strasse)));
 
-        // Neutral Arcticle
+        // Neutral Article
         questionList.add(new Question("Das", "Auto (Car)", resources.getDrawable(R.drawable.das_auto)));
         questionList.add(new Question("Das", "Haus (House)", resources.getDrawable(R.drawable.das_haus)));
         questionList.add(new Question("Das", "Schaf (Sheep)", resources.getDrawable(R.drawable.das_schaf)));
@@ -150,9 +150,22 @@ public class  QuizActivity extends AppCompatActivity {
     // Will set the imageQuiz, question num, and the noun
     public void setQuestion()
     {
+        QuizImageFragment mFragment = new QuizImageFragment();
+        Question currentQues = questionList.get(currentQuiz);
+
+        mFragment.changeImg(currentQues);
+
+        mFragment.changeNoun(questionList.get(currentQuiz).getNoun());
+
+        mFragment.changeQuestionNo(currentQuiz);
+
         //Create reference and set the imageQuiz depending on the currentQuiz number
+        /*
         ImageView imageQuiz = (ImageView) findViewById(R.id.imgQuiz);
-        imageQuiz.setImageDrawable(questionList.get(currentQuiz).getImage());
+
+        Question currentQues = questionList.get(currentQuiz);
+
+        imageQuiz.setImageDrawable(currentQues.getImage());
 
         //Create reference and set the Question number
         TextView txtNumQues = (TextView) findViewById(R.id.txtNumQues);
@@ -161,6 +174,7 @@ public class  QuizActivity extends AppCompatActivity {
         //Create reference and set the Question noun
         TextView txtNoun = (TextView) findViewById(R.id.txtNoun);
         txtNoun.setText(questionList.get(currentQuiz).getNoun());
+        */
     }
 
     // Will go to the feedback activity and increment the totalScore if answer is true
