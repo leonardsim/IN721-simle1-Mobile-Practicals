@@ -21,8 +21,11 @@ public class  QuizActivity extends AppCompatActivity {
     //Declare fragment and fragment manager
     Fragment dynamicFragment;
     FragmentManager fm;
+    FragmentTransaction ft;
 
-    //
+    //Attributes
+    int totalScore;
+    int currentQuiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,13 @@ public class  QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         //Set the fragment
+        dynamicFragment = new QuizImageFragment();
+        fm = getFragmentManager();
+        ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, dynamicFragment);
+        ft.commit();
 
     }
+
+    
 }
