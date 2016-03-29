@@ -60,5 +60,21 @@ public class FeedbackActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void incorrectFragment()
+    {
+        // Create instance of correct feedback fragment class
+        Fragment dynamicFragment = new InCorrectFeedbackFragment();
 
+        // Fragment Manager used to replace the placeholder with Fragment
+        FragmentManager fm = getFragmentManager();
+
+        // Begin transaction by obtaining FragmentTransaction object
+        FragmentTransaction ft = fm.beginTransaction();
+
+        // Replaces the feedback container with dynamicFragment
+        ft.replace(R.id.feedback_container, dynamicFragment);
+
+        // Commits the changes
+        ft.commit();
+    }
 }
