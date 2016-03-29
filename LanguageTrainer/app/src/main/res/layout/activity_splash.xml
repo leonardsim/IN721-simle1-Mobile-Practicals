@@ -40,12 +40,13 @@
         android:textSize="@dimen/font_size"
         android:textColor="@color/fontColor"
         android:textStyle="bold"
-        android:layout_marginTop="70dp"
+        android:gravity="center"
         android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView" />
+        android:layout_alignStart="@+id/imageView"
+        android:layout_marginTop="62dp"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView" />
 
     <Button
         android:layout_width="wrap_content"
