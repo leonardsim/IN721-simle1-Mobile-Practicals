@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -59,10 +60,12 @@ public class  QuizActivity extends AppCompatActivity {
         shuffleQuestion();
         setQuestion();
 
-
+        // Create button reference and listener
+        Button btnNext = (Button) findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new btnNextClickHandler());
     }
 
-
+    // Goes to feedback activity
     public class btnNextClickHandler implements View.OnClickListener
     {
         @Override
@@ -163,17 +166,24 @@ public class  QuizActivity extends AppCompatActivity {
     // Will go to the feedback activity and increment the totalScore if answer is true
     public void goToFeedback(boolean answer)
     {
-        Intent feedbackIntent = new Intent(QuizActivity.this, FeedbackActivity.class);
+        Intent changeFeedbackIntent = new Intent(QuizActivity.this, FeedbackActivity.class);
 
         if (answer == true)
         {
             // Increment score
             totalScore++;
-            startActivity(feedbackIntent);
+
+            changeFeedbackIntent.putExtra("userAnswer", answer);
+            changeFeedbackIntent.putExtra("userScore", totalScore);
+
+            startActivity(changeFeedbackIntent);
         }
         else
         {
-            startActivity(feedbackIntent);
+            changeFeedbackIntent.putExtra("userAnswer", answer);
+            changeFeedbackIntent.putExtra("userScore", totalScore);
+
+            startActivity(changeFeedbackIntent);
         }
     }
 }
