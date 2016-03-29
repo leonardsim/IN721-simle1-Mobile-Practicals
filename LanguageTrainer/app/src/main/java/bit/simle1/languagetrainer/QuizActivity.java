@@ -113,7 +113,7 @@ public class  QuizActivity extends AppCompatActivity {
 
         //Create reference and set the Question number
         TextView txtNumQues = (TextView) findViewById(R.id.txtNumQues);
-        txtNumQues.setText("Question " + currentQuiz);
+        txtNumQues.setText("Question " + (currentQuiz + 1));
 
         //Create reference and set the Question noun
         TextView txtNoun = (TextView) findViewById(R.id.txtNoun);
