@@ -19,7 +19,7 @@ public class DialogFeedback extends DialogFragment {
         String feedback = getArguments().getString("Feedback");
 
         // Set title of dialog
-        getDialog().setTitle(feedback);
+        getDialog().setTitle("You are...");
 
         // Inflate xml
         View v = inflater.inflate(R.layout.dialog_fragment, container);

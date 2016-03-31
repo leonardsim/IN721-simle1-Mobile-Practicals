@@ -231,7 +231,11 @@ public class QuizActivity extends AppCompatActivity {
         }
         else
         {
-            bundle.putString("Feedback", "Incorrect!");
+            Question currentQues = questionList.get(currentQuiz);
+
+            String correctAns = "Incorrect! The correct article for " + currentQues.getNoun() + " is " + currentQues.getArticle();
+
+            bundle.putString("Feedback", correctAns);
             /*changeFeedbackIntent.putExtra("userAnswer", answer);
             changeFeedbackIntent.putExtra("userScore", totalScore);
 
