@@ -42,6 +42,11 @@ public class QuizActivity extends AppCompatActivity {
     // Used to pass info to fragment
     Bundle bundle;
 
+    //Declare radio buttons
+    RadioButton rdoDer;
+    RadioButton rdoDas;
+    RadioButton rdoDie;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,12 @@ public class QuizActivity extends AppCompatActivity {
         bundle = new Bundle();
         fm = getFragmentManager();
         dialogFeedback = new DialogFeedback();
+
+        // Create reference for all radio buttons
+        rdoDer = (RadioButton) findViewById(R.id.rdoDer);
+        rdoDas = (RadioButton) findViewById(R.id.rdoDas);
+        rdoDie = (RadioButton) findViewById(R.id.rdoDie);
+
 
         //Set the fragment to replace the container with the quiz image layout
         /*
@@ -82,11 +93,6 @@ public class QuizActivity extends AppCompatActivity {
 
             // Set question
             Question currentQues = questionList.get(currentQuiz);
-
-            // Create reference for all radio buttons
-            RadioButton rdoDer = (RadioButton) findViewById(R.id.rdoDer);
-            RadioButton rdoDas = (RadioButton) findViewById(R.id.rdoDas);
-            RadioButton rdoDie = (RadioButton) findViewById(R.id.rdoDie);
 
             if (rdoDer.isChecked())
             {
@@ -247,6 +253,9 @@ public class QuizActivity extends AppCompatActivity {
 
         // Pass control to fragment
         dialogFeedback.show(fm, "tag");
+
+        // Un-check all the radio buttons
+        clearRadioBtn();
     }
 
     public void nextQuestion()
@@ -256,5 +265,12 @@ public class QuizActivity extends AppCompatActivity {
         currentQuiz++;
 
         setQuestion();
+    }
+
+    public void clearRadioBtn()
+    {
+        rdoDas.setChecked(false);
+        rdoDie.setChecked(false);
+        rdoDer.setChecked(false);
     }
 }
