@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         funArray[9] = new FTTD(taeriImage, "Taeri Gorge Railway");
     }
 
+    // Sets up the list view (Wont work yet)
     public void setUpCustomList()
     {
         //Create Adapter
