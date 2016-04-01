@@ -26,48 +26,7 @@ public class ActivitiesActivity extends AppCompatActivity {
 
         initialiseDataArray();
 
-        // Create custom array adapter
-        CustomAdapter funAdapter = new CustomAdapter(this, R.layout.custom_view_layout, funArray);
-
-        // Bind the ListView to the Adapter
-        ListView lvFun = (ListView) findViewById(R.id.lvFunThings);
-        lvFun.setAdapter(funAdapter);
-    }
-
-    public class CustomAdapter extends ArrayAdapter<FTTD> {
-
-        //Constructor
-        public CustomAdapter(Context context, int resource, FTTD[] objects)
-        {
-            super(context, resource, objects);
-        }
-
-        // Override the parent method
-        // Make the method return a View filled up from the data in itemsArray[position]
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            // Get an inflater from the Activity
-            LayoutInflater inflater = LayoutInflater.from(ActivitiesActivity.this);
-
-            // Inflate the custom view
-            View customView = inflater.inflate(R.layout.custom_view_layout, parent, false);
-
-            // Grab references to its controls
-            ImageView ivCustomIcon = (ImageView) customView.findViewById(R.id.ivCustomIcon);
-            TextView tvFTTD = (TextView) customView.findViewById(R.id.tvFTTD);
-
-            // Get the current input item (Fun things isntnace) from the array
-            FTTD currentItem = getItem(position);
-
-            // Use the instance data to inititalise the View controls
-            ivCustomIcon.setImageDrawable(currentItem.placeImage);
-            tvFTTD.setText(currentItem.placeName);
-
-            // Return the view
-            return customView;
-
-        }
+        setUpCustomList();
     }
 
     public void initialiseDataArray()
@@ -100,11 +59,45 @@ public class ActivitiesActivity extends AppCompatActivity {
         funArray[9] = new FTTD(taeriImage, "Taeri Gorge Railway");
     }
 
+    public class CustomAdapter extends ArrayAdapter<FTTD> {
+
+        //Constructor
+        public CustomAdapter(Context context, int resource, FTTD[] objects)
+        {
+            super(context, resource, objects);
+        }
+
+        // Override the parent method
+        // Make the method return a View filled up from the data in itemsArray[position]
+        @Override
+        public View getView(int position, View convertView, ViewGroup container) {
+
+            // Get an inflater from the Activity
+            LayoutInflater inflater = LayoutInflater.from(ActivitiesActivity.this);
+
+            // Inflate the custom view
+            View customView = inflater.inflate(R.layout.custom_view_layout, container, false);
+
+            // Grab references to its controls
+            ImageView ivCustomIcon = (ImageView) customView.findViewById(R.id.ivCustomIcon);
+            TextView tvFTTD = (TextView) customView.findViewById(R.id.tvFTTD);
+
+            // Get the current input item (Fun things instance) from the array
+            FTTD currentItem = getItem(position);
+
+            // Use the instance data to inititalise the View controls
+            ivCustomIcon.setImageDrawable(currentItem.placeImage);
+            tvFTTD.setText(currentItem.placeName);
+
+            // Return the view
+            return customView;
+        }
+    }
     // Sets up the list view (Wont work yet)
     public void setUpCustomList()
     {
         //Create Adapter
-        ArrayAdapter<FTTD> fttdAdapter = new ArrayAdapter<FTTD>(this, R.layout.custom_fun_things_layout, funArray);
+        CustomAdapter fttdAdapter = new CustomAdapter(this, R.layout.custom_view_layout, funArray);
 
         //Bind ListView to the Adapter
         ListView lvFunThings = (ListView) findViewById(R.id.lvFunThings);
