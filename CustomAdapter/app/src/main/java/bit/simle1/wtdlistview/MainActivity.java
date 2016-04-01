@@ -113,4 +113,14 @@ public class MainActivity extends AppCompatActivity {
         funArray[8] = new FTTD(kildaImage, "St. Kilda Beach");
         funArray[9] = new FTTD(taeriImage, "Taeri Gorge Railway");
     }
+
+    public void setUpCustomList()
+    {
+        //Create Adapter
+        ArrayAdapter<FTTD> fttdAdapter = new ArrayAdapter<FTTD>(this, R.layout.custom_fun_things_layout, funArray);
+
+        //Bind ListView to the Adapter
+        ListView lvFunThings = (ListView) findViewById(R.id.lvFunThings);
+        lvFunThings.setAdapter(fttdAdapter);
+    }
 }
