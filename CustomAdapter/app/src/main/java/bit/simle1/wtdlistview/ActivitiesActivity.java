@@ -23,6 +23,15 @@ public class ActivitiesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activities);
+
+        initialiseDataArray();
+
+        // Create custom array adapter
+        CustomAdapter funAdapter = new CustomAdapter(this, R.layout.custom_view_layout, funArray);
+
+        // Bind the ListView to the Adapter
+        ListView lvFun = (ListView) findViewById(R.id.lvFunThings);
+        lvFun.setAdapter(funAdapter);
     }
 
     public class CustomAdapter extends ArrayAdapter<FTTD> {
