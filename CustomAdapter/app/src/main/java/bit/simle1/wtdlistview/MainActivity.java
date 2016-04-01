@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    FTTD[] funArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setUpDunedinGroupList();
+
+        initialiseDataArray();
 
         ListView dunedinGroupListView = (ListView) findViewById(R.id.listViewDunedin);
         dunedinGroupListView.setOnItemClickListener(new ListViewWithToastHandler());
@@ -85,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     public void initialiseDataArray()
     {
         // Fetch drawables
-
         Resources resourceMachine = getResources();
 
         Drawable larnachImage = resourceMachine.getDrawable(R.drawable.larnach_castle);
@@ -99,6 +100,17 @@ public class MainActivity extends AppCompatActivity {
         Drawable kildaImage = resourceMachine.getDrawable(R.drawable.st_kilda_beach);
         Drawable taeriImage = resourceMachine.getDrawable(R.drawable.taeri_gorge_railway);
 
+        // Inititalise the data array
+        funArray = new FTTD[10];
+        funArray[0] = new FTTD(larnachImage, "Larnach Castle");
+        funArray[1] = new FTTD(moanaImage, "Moana Pool");
+        funArray[2] = new FTTD(monarchImage, "Monarch Cruise");
+        funArray[3] = new FTTD(octagonImage, "Octagon");
+        funArray[4] = new FTTD(olvestonImage, "Olveston");
+        funArray[5] = new FTTD(peninsulaImage, "Peninsula");
+        funArray[6] = new FTTD(saltImage, "Salt Water Pool");
+        funArray[7] = new FTTD(speightsImage, "Speights Brewery Factory");
+        funArray[8] = new FTTD(kildaImage, "St. Kilda Beach");
+        funArray[9] = new FTTD(taeriImage, "Taeri Gorge Railway");
     }
-
 }
