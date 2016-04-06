@@ -12,28 +12,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter A Country Name"
+        android:text="Select A Country"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/textView" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etCountry"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SHOW CITIES"
         android:id="@+id/btnShow"
-        android:layout_below="@+id/etCountry"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/spnCountries"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -42,4 +33,11 @@
         android:layout_below="@+id/btnShow"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnCountries"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
