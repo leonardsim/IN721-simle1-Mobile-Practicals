@@ -55,7 +55,7 @@
         android:layout_above="@+id/textView2"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/radioGroup">
+        android:id="@+id/rdoGrpLang">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -85,14 +85,14 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/radioGroup"
+        android:layout_below="@+id/rdoGrpLang"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="29dp"
         android:layout_above="@+id/btnLang"
-        android:layout_alignRight="@+id/radioGroup"
-        android:layout_alignEnd="@+id/radioGroup"
-        android:id="@+id/radioGroup2">
+        android:layout_alignRight="@+id/rdoGrpLang"
+        android:layout_alignEnd="@+id/rdoGrpLang"
+        android:id="@+id/rdoGrpColour">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -125,6 +125,6 @@
         android:text="SET COLOUR"
         android:id="@+id/btnColour"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/radioGroup2"
-        android:layout_alignEnd="@+id/radioGroup2" />
+        android:layout_alignRight="@+id/rdoGrpColour"
+        android:layout_alignEnd="@+id/rdoGrpColour" />
 </RelativeLayout>
