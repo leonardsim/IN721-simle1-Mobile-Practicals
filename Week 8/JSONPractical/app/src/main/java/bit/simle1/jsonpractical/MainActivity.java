@@ -6,10 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    public String JSONInput = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         public void onClick(View v) {
+
+            // Convert String to JSON Object
+            JSONInput = readEntireJSON("dunedin_events.json");
+
 
         }
     }
@@ -60,4 +71,43 @@ public class MainActivity extends AppCompatActivity {
 
         return JSONInput;
     }
+
+    public ArrayList<String> populateArrayList(String input)
+    {
+        // Declare and instantiate ArrayList
+        ArrayList<String> eventDisplayArray = new ArrayList<String>();
+
+        try {
+
+            // Convert file string to JSON Object
+            JSONObject eventData = new JSONObject(input);
+
+            // Grab the value part of the data: key-value pair (Which is an object called events)
+            JSONObject eventObject = eventData.getJSONObject("events");
+
+            // Grab the value part of the data: key-value pair (Which is an array called event)
+            JSONArray eventArray = eventObject.getJSONArray("event");
+
+            // Loop through eventArray
+            for (int i = 0; i < eventArray.length(); i++)
+            {
+                // Get an element from the array
+                JSONObject currentEventObject = eventArray.getJSONObject(i);
+
+                // Access the title value
+                String currentEventTitle = currentEventObject.getString("title");
+
+                // Add to the list
+                eventDisplayArray.add(currentEventTitle);
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        return eventDisplayArray;
+    }
+
+
 }
