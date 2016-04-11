@@ -4,7 +4,9 @@ import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +39,15 @@ public class MainActivity extends AppCompatActivity {
             // Convert String to JSON Object
             JSONInput = readEntireJSON("dunedin_events.json");
 
+            // Declare ArrayList and initialise
+            ArrayList<String> eventDisplayArray = populateArrayList(JSONInput);
 
+            // Create adapter
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, eventDisplayArray);
+
+            // Create ListView reference and bind the adapter to the list
+            ListView lvEvents = (ListView) findViewById(R.id.lvEvents);
+            lvEvents.setAdapter(adapter);
         }
     }
 
