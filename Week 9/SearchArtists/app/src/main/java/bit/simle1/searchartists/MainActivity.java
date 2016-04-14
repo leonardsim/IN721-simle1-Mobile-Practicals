@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -39,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
+            // Create reference to edit text and get the text saved into a string
+            EditText etInput = (EditText) findViewById(R.id.etInput);
+            String userInput = etInput.getText().toString();
+
+            AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+            APIThread.execute(userInput);
         }
     }
 
