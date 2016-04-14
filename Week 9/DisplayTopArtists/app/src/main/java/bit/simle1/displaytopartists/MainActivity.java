@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 // Grab the value part of the data: key-value pair (Array called artist)
                 JSONArray artistArray = artistObject.getJSONArray("artist");
 
+                artists = new Artist[artistArray.length()];
+
                 // Loop through the artistArray
                 for (int i = 0; i < artistArray.length(); i++)
                 {
@@ -142,12 +144,14 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+
+            setUpCustomList();
             // Create adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.custom_items, arrayList);
+            /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.custom_items, arrayList);
 
             // Bind adapter to list view
             ListView lvArtists = (ListView) findViewById(R.id.lvArtists);
-            lvArtists.setAdapter(adapter);
+            lvArtists.setAdapter(adapter);*/
         }
 
         public class CustomAdapter extends ArrayAdapter<Artist>
@@ -169,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
                 View customView = inflater.inflate(R.layout.custom_items, parent, false);
 
                 // Grab references to its controls
-                TextView tvName = (TextView) findViewById(R.id.tvName);
-                TextView tvListener = (TextView) findViewById(R.id.tvListener);
+                TextView tvName = (TextView) customView.findViewById(R.id.tvName);
+                TextView tvListener = (TextView) customView.findViewById(R.id.tvListener);
 
                 // Get the current input item from the array
                 Artist currentArtist = getItem(position);
@@ -184,6 +188,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        
+        public void setUpCustomList()
+        {
+            // Create custom adapter
+            CustomAdapter artistAdapter = new CustomAdapter(MainActivity.this, R.layout.custom_items, artists);
+
+            // Bind ListView to the Adapter
+            ListView lvArtists = (ListView) findViewById(R.id.lvArtists);
+            lvArtists.setAdapter(artistAdapter);
+
+        }
     }
 }
