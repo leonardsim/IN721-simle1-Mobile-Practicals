@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         public void onClick(View v) {
-
+            AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+            APIThread.execute();
         }
     }
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
 
+            // Get image view reference and set the image
             ImageView ivArtist = (ImageView) findViewById(R.id.ivArtist);
             ivArtist.setImageBitmap(bitmap);
         }
