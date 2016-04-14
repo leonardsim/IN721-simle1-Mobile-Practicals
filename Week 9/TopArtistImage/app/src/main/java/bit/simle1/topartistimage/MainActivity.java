@@ -51,13 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
             Bitmap artistImage = null;
 
+            String urlBitmap= "http://ws.audioscrobbler.com/2.0/?"
+                    + "method=chart.getTopArtists&"
+                    + "limit=1&"
+                    + "api_key=5cff6bd4a02a240bbfef15567f21c45d&"
+                    + "format=json";
+
+            String stringDataFromUrl = getStringDataFromURL(urlBitmap);
+
             try {
 
-                String urlBitmap= "http://ws.audioscrobbler.com/2.0/?"
-                        + "method=chart.getTopArtists&"
-                        + "limit=1&"
-                        + "api_key=5cff6bd4a02a240bbfef15567f21c45d&"
-                        + "format=json";
 
                 // Convert URL string to URLObject
                 URL URLObject = new URL(urlBitmap);
@@ -109,8 +112,52 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     //Methods
+    public String getStringDataFromURL(String url)
+    {
+        String data = "";
+
+        try {
+
+            // Convert URL string to URLObject
+            URL URLObject = new URL(url);
+
+            // Create HttpURLConnection object via openConnection method of URLObject
+            HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
+
+            // Send the IRL
+            connection.connect();
+
+            // If it doesn't return 200, no data has been received
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == 200)
+            {
+                // Get an InputStream from the HttpURLConnection object and set up a Buffered Reader
+                InputStream inputStream = connection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                // Read the input
+                String responseString;
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while((responseString = bufferedReader.readLine()) != null)
+                {
+                    stringBuilder = stringBuilder.append(responseString);
+                }
+
+                data = stringBuilder.toString();
+            }
+
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+
     public String getImageURL(String JSONString)
     {
         String imageURL = "";
