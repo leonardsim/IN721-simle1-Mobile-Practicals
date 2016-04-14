@@ -44,13 +44,10 @@ public class MainActivity extends AppCompatActivity {
     //Create inner class AsyncTask
     public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, Bitmap>
     {
-        String JSONString = null;
-
         @Override
         protected Bitmap doInBackground(Void... params) {
 
-            Bitmap artistImage = null;
-
+            // URL that will display the top artist in JSON format
             String urlBitmap= "http://ws.audioscrobbler.com/2.0/?"
                     + "method=chart.getTopArtists&"
                     + "limit=1&"
@@ -58,48 +55,8 @@ public class MainActivity extends AppCompatActivity {
                     + "format=json";
 
             String stringDataFromUrl = getStringDataFromURL(urlBitmap);
-
-            try {
-
-
-                // Convert URL string to URLObject
-                URL URLObject = new URL(urlBitmap);
-
-                // Create HttpURLConnection object via openConnection method of URLObject
-                HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
-
-                // Send the IRL
-                connection.connect();
-
-                // If it doesn't return 200, no data has been received
-                int responseCode = connection.getResponseCode();
-
-                if (responseCode == 200)
-                {
-                    // Get an InputStream from the HttpURLConnection object and set up a Buffered Reader
-                    InputStream inputStream = connection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                    // Read the input
-                    String responseString;
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    while((responseString = bufferedReader.readLine()) != null)
-                    {
-                        stringBuilder = stringBuilder.append(responseString);
-                    }
-
-                    // Get the string from the string builder
-                    JSONString = stringBuilder.toString();
-
-                    // Converts the inputStream into a Bitmap
-                    artistImage = BitmapFactory.decodeStream(inputStream);
-                }
-
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
+            String imageURL = getImageURL(stringDataFromUrl);
+            Bitmap artistImage = getBitmapImage(imageURL);
 
             return artistImage;
         }
@@ -111,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             ivArtist.setImageBitmap(bitmap);
         }
     }
+
 
     //Methods
     public String getStringDataFromURL(String url)
@@ -185,5 +143,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return imageURL;
+    }
+
+    public Bitmap getBitmapImage(String imageURL)
+    {
+        Bitmap artistImage = null;
+
+        try {
+            // Convert URL string to URLObject
+            URL URLObject = new URL(imageURL);
+
+            // Create HttpURLConnection object via openConnection method of URLObject
+            HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
+
+            // Send the IRL
+            connection.connect();
+
+            // If it doesn't return 200, no data has been received
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == 200)
+            {
+                // Get an InputStream from connection
+                InputStream inputStream = connection.getInputStream();
+
+                // Converts the inputStream into a Bitmap
+                artistImage = BitmapFactory.decodeStream(inputStream);
+            }
+
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+
+        return artistImage;
     }
 }
