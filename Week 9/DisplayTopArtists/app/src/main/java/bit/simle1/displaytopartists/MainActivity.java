@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         public void onClick(View v) {
-
+            AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+            APIThread.execute();
         }
     }
 
