@@ -24,10 +24,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         // Create reference for button and set listener
         Button btnSearch = (Button) findViewById(R.id.btnSearch);
@@ -40,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            // Create reference to edit text and get the text saved into a string
             EditText etInput = (EditText) findViewById(R.id.etInput);
+
+            // Create reference to edit text and get the text saved into a string
             String userInput = etInput.getText().toString();
 
             AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
@@ -60,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 // URL that will display 10 artists similair to what the user typed in JSON format
+                // params[0] is the first string input fro mthe arguement
                 String urlString = "http://ws.audioscrobbler.com/2.0/?"
-                        + "method=artist.getSimilar&artist=" + params + "&limit=10&"
+                        + "method=artist.getsimilar&artist=" + params[0] + "&limit=10&"
                         + "api_key=5cff6bd4a02a240bbfef15567f21c45d&"
                         + "format=json";
+
 
                 // Convert URL string to URLObject
                 URL URLObject = new URL(urlString);
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject similarArtistsObject = artistData.getJSONObject("similarartists");
 
                 // Grab the value part of the data: key-value pair (Object called artists)
-                JSONArray artistArray = similarArtistsObject.getJSONArray("artists");
+                JSONArray artistArray = similarArtistsObject.getJSONArray("artist");
 
                 // Loop through artistArray
                 for (int i = 0; i < artistArray.length(); i++)
