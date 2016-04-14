@@ -4,7 +4,13 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -12,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,7 +100,45 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String fetchedString)
         {
+            // Declare and instantiate ArrayList<String>
+            ArrayList<String> arrayList = new ArrayList<>();
 
+            try {
+
+                // Convert the raw data to JSON Object
+                JSONObject artistData = new JSONObject(fetchedString);
+
+                // Grab the value part of the data: key-value pair (Object called artists)
+                JSONObject artistObject = artistData.getJSONObject("artists");
+
+                // Grab the value part of the data: key-value pair (Array called artist)
+                JSONArray artistArray = artistObject.getJSONArray("artist");
+
+                // Loop through the artistArray
+                for (int i = 0; i < artistArray.length(); i++)
+                {
+                    // Get an element from the array
+                    JSONObject currentArtistObject = artistArray.getJSONObject(i);
+
+                    // Access the artist name and listener value
+                    String currentArtistName = currentArtistObject.getString("name");
+                    String currentArtistListeners = currentArtistObject.getString("listeners");
+
+                    // Concat both the current artists values and add them to the array list
+                    String nameListener = currentArtistName + ", \t" + currentArtistListeners;
+                    arrayList.add(nameListener);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Create adapter
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, arrayList);
+
+            // Bind adapter to list view
+            ListView lvArtists = (ListView) findViewById(R.id.lvArtists);
+            lvArtists.setAdapter(adapter);
         }
     }
 }
