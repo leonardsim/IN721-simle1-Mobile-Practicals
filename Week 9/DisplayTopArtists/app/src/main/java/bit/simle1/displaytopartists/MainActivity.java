@@ -1,12 +1,16 @@
 package bit.simle1.displaytopartists;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +25,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    Artist[] artists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
                     String currentArtistName = currentArtistObject.getString("name");
                     String currentArtistListeners = currentArtistObject.getString("listeners");
 
+                    artists[i] = new Artist(currentArtistName, currentArtistListeners);
+
                     // Concat both the current artists values and add them to the array list
                     String nameListener = currentArtistName + ", \t" + currentArtistListeners;
                     arrayList.add(nameListener);
@@ -135,11 +143,47 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Create adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, arrayList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.custom_items, arrayList);
 
             // Bind adapter to list view
             ListView lvArtists = (ListView) findViewById(R.id.lvArtists);
             lvArtists.setAdapter(adapter);
         }
+
+        public class CustomAdapter extends ArrayAdapter<Artist>
+        {
+            //Constructor
+            public CustomAdapter(Context context, int resource, Artist[] objects) {
+                super(context, resource, objects);
+            }
+
+            // Override the parent method
+            // Make the method return a View filled up from the data in itemsArray[position]
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
+                //Get an inflater from the Activity
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+
+                // Inflate the custom view
+                View customView = inflater.inflate(R.layout.custom_items, parent, false);
+
+                // Grab references to its controls
+                TextView tvName = (TextView) findViewById(R.id.tvName);
+                TextView tvListener = (TextView) findViewById(R.id.tvListener);
+
+                // Get the current input item from the array
+                Artist currentArtist = getItem(position);
+
+                // Use the instance data to initialise the View control
+                tvName.setText(currentArtist.name);
+                tvListener.setText(currentArtist.listener);
+
+                //Return the view
+                return customView;
+            }
+        }
+
+        
     }
 }
