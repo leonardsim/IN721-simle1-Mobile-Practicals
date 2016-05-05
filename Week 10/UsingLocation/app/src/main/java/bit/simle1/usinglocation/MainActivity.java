@@ -13,10 +13,16 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Declare Location class
+    Location currentLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Instantiate Location class
+        currentLocation = new Location();
 
         // Create button reference and set listener
         Button btnTeleport = (Button) findViewById(R.id.btnTeleport);
@@ -35,23 +41,7 @@ public class MainActivity extends AppCompatActivity {
     // Methods
     private void generateRandomNumber()
     {
-        // Generate random number
-        Random rand = new Random();
-
-        // The range to random Longitude
-        double maxLong = 180;
-        double minLong = -180;
-
-        // The range to random Latitude
-        double maxLat = 90;
-        double minLat = -90;
-
-        // Initialise longitude and latitude with random values
-        // (max - min) gives the range
-        // +1 includes the last value of max value\
-        // +min gives it the start value
-        double longRand = minLong + ((maxLong - minLong) + 1) * rand.nextDouble();
-        double latRand = minLat + ((maxLat - minLat) + 1) * rand.nextDouble();
+        currentLocation.generateRandomValues();
 
         // Formats the double to have 3 decimal places
         DecimalFormat precision = new DecimalFormat("0.000");
@@ -61,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvLat = (TextView) findViewById(R.id.tvLat);
 
         // Set the test with the dobule values
-        tvLng.setText(precision.format(longRand));
-        tvLat.setText(precision.format(latRand));
+        tvLng.setText(precision.format(currentLocation.getLongVal()));
+        tvLat.setText(precision.format(currentLocation.getLatVal()));
     }
 }
