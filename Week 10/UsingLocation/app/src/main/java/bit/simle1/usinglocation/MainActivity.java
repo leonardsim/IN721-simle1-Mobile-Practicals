@@ -1,5 +1,6 @@
 package bit.simle1.usinglocation;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -87,11 +88,25 @@ public class MainActivity extends AppCompatActivity {
 
     public class AsyncDisplayNearestCityAlways extends AsyncTask<Void, Void, String>
     {
+        // Declare progress dialog
+        ProgressDialog pd;
+
+        @Override
+        protected void onPreExecute()
+        {
+            // Instantiate Progress Dialog
+            pd = new ProgressDialog(MainActivity.this);
+
+            // Will display progress dialog message
+            pd = ProgressDialog.show(MainActivity.this, "Searching For Closest City", "Please wait....");
+        }
+
         @Override
         protected String doInBackground(Void... params) {
 
             // Set a default empty value
             String stringData = "[[]]";
+            String currentCity = "";
 
             // While it's empty, randomize the Longitude and Latitude
             while (stringData.equals("[[]]"))
@@ -108,22 +123,26 @@ public class MainActivity extends AppCompatActivity {
                 // Update the stringData with the new location
                 stringData = getStringDataFromURL(urlString);
             }
+            // Save the city info
+            currentCity = getCityInfo(stringData);
 
-            return stringData;
+            return currentCity;
         }
 
         @Override
         protected void onPostExecute(String s) {
 
-            // Save the city info
-            String currentCity = getCityInfo(s);
+            if (pd.isShowing())
+            {
+                pd.dismiss();
+            }
 
             // Set the textviews for Longitude and Latitude
             setLongLatVal();
 
             // Set the textview for current city
             TextView tvCity = (TextView) findViewById(R.id.tvCity);
-            tvCity.setText(currentCity);
+            tvCity.setText(s);
         }
     }
 
