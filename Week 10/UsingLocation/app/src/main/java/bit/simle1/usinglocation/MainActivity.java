@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         public void onClick(View v) {
-            AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+            AsyncDisplayNearestCityAlways APIThread = new AsyncDisplayNearestCityAlways();
             APIThread.execute();
         }
     }
 
-    // Methods
+    // Async Tasks
     public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String>
     {
         @Override
@@ -85,6 +85,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public class AsyncDisplayNearestCityAlways extends AsyncTask<Void, Void, String>
+    {
+        @Override
+        protected String doInBackground(Void... params) {
+
+            // Set a default empty value
+            String stringData = "[[]]";
+
+            // While it's empty, randomize the Longitude and Latitude
+            while (stringData.equals("[[]]"))
+            {
+                // Produces a random value for both Longitude and Latitude
+                currentLocation.GenerateRandomValues();
+
+                // URL that will display the location in JSON format
+                String urlString = "http://www.geoplugin.net/extras/location.gp?"
+                        + "lat=" + currentLocation.getLatVal() + "&"
+                        + "long=" + currentLocation.getLongVal() + "&"
+                        + "format=json";
+
+                // Update the stringData with the new location
+                stringData = getStringDataFromURL(urlString);
+            }
+
+            return stringData;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            // Save the city info
+            String currentCity = getCityInfo(s);
+
+            // Set the textviews for Longitude and Latitude
+            setLongLatVal();
+
+            // Set the textview for current city
+            TextView tvCity = (TextView) findViewById(R.id.tvCity);
+            tvCity.setText(currentCity);
+        }
+    }
+
+    // Methods
     private void setLongLatVal()
     {
         // Formats the double to have 3 decimal places
@@ -94,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvLng = (TextView) findViewById(R.id.tvLng);
         TextView tvLat = (TextView) findViewById(R.id.tvLat);
 
-        // Set the test with the dobule values
+        // Set the text with the dobule values
         tvLng.setText(precision.format(currentLocation.getLongVal()));
         tvLat.setText(precision.format(currentLocation.getLatVal()));
     }
