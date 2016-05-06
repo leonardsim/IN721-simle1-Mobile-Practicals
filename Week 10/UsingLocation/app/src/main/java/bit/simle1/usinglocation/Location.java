@@ -34,7 +34,7 @@ public class Location {
     }
 
     //Methods
-    public void generateRandomValues()
+    public void GenerateRandomValues()
     {
         // Generate random number
         Random rand = new Random();
@@ -45,9 +45,6 @@ public class Location {
         // +min gives it the start value
         setLongVal(minLong + ((maxLong - minLong) + 1) * rand.nextDouble());
         setLatVal(minLat + ((maxLat - minLat) + 1) * rand.nextDouble());
-
-        // Formats the double to have 3 decimal places
-        DecimalFormat precision = new DecimalFormat("0.000");
     }
 
     // Properties
