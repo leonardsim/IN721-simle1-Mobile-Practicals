@@ -1,13 +1,17 @@
 package bit.simle1.usinglocation;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class AsyncDisplayNearestCityAlways extends AsyncTask<Void, Void, String>
+    public class AsyncDisplayNearestCityAlways extends AsyncTask<Void, Void, Location>
     {
         // Declare progress dialog
         ProgressDialog pd;
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Location doInBackground(Void... params) {
 
             // Set a default empty value
             String stringData = "[[]]";
@@ -124,13 +128,21 @@ public class MainActivity extends AppCompatActivity {
                 stringData = getStringDataFromURL(urlString);
             }
             // Save the city info
-            currentCity = getCityInfo(stringData);
 
-            return currentCity;
+            Location l = new Location();
+            l.setClosestCity(getCityInfo(stringData));
+
+            // Get the image URL and use it to get the bitmap
+            String imageURL = getImageURL(currentLocation.getCityName());
+            Bitmap cityImage = getBitmapImage(imageURL);
+
+            l.setCityImage(cityImage);
+
+            return l;
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Location l) {
 
             if (pd.isShowing())
             {
@@ -142,7 +154,11 @@ public class MainActivity extends AppCompatActivity {
 
             // Set the textview for current city
             TextView tvCity = (TextView) findViewById(R.id.tvCity);
-            tvCity.setText(s);
+            tvCity.setText(l.getClosestCity());
+
+            ImageView ivLocationImage = (ImageView) findViewById(R.id.ivLocationImage);
+            ivLocationImage.setImageBitmap(l.getCityImage());
+
         }
     }
 
@@ -156,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvLng = (TextView) findViewById(R.id.tvLng);
         TextView tvLat = (TextView) findViewById(R.id.tvLat);
 
-        // Set the text with the dobule values
+        // Set the text with the double values
         tvLng.setText(precision.format(currentLocation.getLongVal()));
         tvLat.setText(precision.format(currentLocation.getLatVal()));
     }
@@ -226,6 +242,14 @@ public class MainActivity extends AppCompatActivity {
                 // Access the cityInfo to obtain the place and countryCode
                 cityName = cityInfo.getString("geoplugin_place");
                 countryCode = cityInfo.getString("geoplugin_countryCode");
+
+                currentLocation.setCityName(cityName);
+                currentLocation.setCountryCode(countryCode);
+
+                if (cityName == "" || countryCode == "")
+                {
+                    return "null";
+                }
             }
 
             // Concat the values obtained from JSON object
@@ -236,5 +260,87 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return closestCity;
+    }
+
+    private String getImageURL(String cityName)
+    {
+        String imageURL = "";
+
+        String flickrJSONURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&"
+                + "api_key=5f55323ed742a6d1f89c2448fa59eb6f&"
+                + "tags=" + cityName
+                + "&format=json&nojsoncallback=1";
+
+        // Grab the raw JSON string
+        String flickrJSONString = getStringDataFromURL(flickrJSONURL);
+
+        try {
+
+            // Convert the raw data to JSON Object
+            JSONObject flickrData = new JSONObject(flickrJSONString);
+
+            // Grab the value part of the data (Object called photos)
+            JSONObject flickrObject = flickrData.getJSONObject("photos");
+
+            // Grab the value part of the data (Array called photo)
+            JSONArray flickrArray = flickrObject.getJSONArray("photo");
+
+            // Get first Flickr photo object
+            JSONObject firstFlickrPhoto = flickrArray.getJSONObject(0);
+
+            // Get the farm id
+            String farmID = firstFlickrPhoto.getString("farm");
+
+            // Get the server id
+            String serverID = firstFlickrPhoto.getString("server");
+
+            // Get the photo id
+            String photoID = firstFlickrPhoto.getString("id");
+
+            // Get the secret value
+            String secret = firstFlickrPhoto.getString("secret");
+
+            // Form the url for the image
+            imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + ".jpg";
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return imageURL;
+    }
+
+    private Bitmap getBitmapImage(String imageURL)
+    {
+        Bitmap cityImage = null;
+
+        try {
+
+            // Convert URL string to URLObject
+            URL URLObject = new URL(imageURL);
+
+            // Create HttpURLConnection object via openConnection method of URLObject
+            HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
+
+            // Send the URL
+            connection.connect();
+
+            // If it doesn't return 200, no data has been received
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == 200)
+            {
+                // Get an InputStream from connection
+                InputStream inputStream = connection.getInputStream();
+
+                //Converts the inputStream
+                cityImage = BitmapFactory.decodeStream(inputStream);
+            }
+
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+
+        return cityImage;
     }
 }
