@@ -1,6 +1,7 @@
 package bit.simle1.usinglocation;
 
-import java.text.DecimalFormat;
+import android.graphics.Bitmap;
+
 import java.util.Random;
 
 /**
@@ -18,9 +19,17 @@ public class Location {
     private double maxLat;
     private double minLat;
 
+    private String cityName;
+    private String countryCode;
+    private String closestCity;
+
+    private Bitmap cityImage;
+
     //Constructor
     public Location()
     {
+        setCityName("");
+
         setLatVal(0);
         setLongVal(0);
 
@@ -62,5 +71,37 @@ public class Location {
 
     public void setLongVal(double longVal) {
         this.longVal = longVal;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getClosestCity() {
+        return closestCity;
+    }
+
+    public void setClosestCity(String closestCity) {
+        this.closestCity = closestCity;
+    }
+
+    public Bitmap getCityImage() {
+        return cityImage;
+    }
+
+    public void setCityImage(Bitmap cityImage) {
+        this.cityImage = cityImage;
     }
 }
