@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -127,16 +128,27 @@ public class MainActivity extends AppCompatActivity {
                 // Update the stringData with the new location
                 stringData = getStringDataFromURL(urlString);
             }
-            // Save the city info
 
             Location l = new Location();
             l.setClosestCity(getCityInfo(stringData));
 
             // Get the image URL and use it to get the bitmap
             String imageURL = getImageURL(currentLocation.getCityName());
-            Bitmap cityImage = getBitmapImage(imageURL);
 
-            l.setCityImage(cityImage);
+            // If the imageURL is equal to "No such photo" then set the flag to be false
+            // else
+            if (imageURL == "No such photo")
+            {
+                l.setImageURLFlag(false);
+            }
+            else
+            {
+                Bitmap cityImage = getBitmapImage(imageURL);
+
+                l.setCityImage(cityImage);
+
+                l.setImageURLFlag(true);
+            }
 
             return l;
         }
@@ -154,10 +166,25 @@ public class MainActivity extends AppCompatActivity {
 
             // Set the textview for current city
             TextView tvCity = (TextView) findViewById(R.id.tvCity);
-            tvCity.setText(l.getClosestCity());
+            tvCity.setText("Closest City: " + l.getClosestCity());
 
+            // Create reference for image view and text view
             ImageView ivLocationImage = (ImageView) findViewById(R.id.ivLocationImage);
-            ivLocationImage.setImageBitmap(l.getCityImage());
+            TextView tvFeedback = (TextView) findViewById(R.id.tvFeedback);
+
+            // If the flag is true, then set the image
+            // else set the text to give feedback that there are no available pictures
+            if (l.isImageURLFlag() == true)
+            {
+                tvFeedback.setText("");
+                ivLocationImage.setImageBitmap(l.getCityImage());
+            }
+            else
+            {
+                ivLocationImage.setImageResource(android.R.color.transparent);
+                tvFeedback.setText("This city has no images in Flickr");
+                //Toast.makeText(MainActivity.this, "This city has no images in Flickr", Toast.LENGTH_SHORT).show();
+            }
 
         }
     }
@@ -285,23 +312,30 @@ public class MainActivity extends AppCompatActivity {
             // Grab the value part of the data (Array called photo)
             JSONArray flickrArray = flickrObject.getJSONArray("photo");
 
-            // Get first Flickr photo object
-            JSONObject firstFlickrPhoto = flickrArray.getJSONObject(0);
+            if (flickrArray.length() > 0)
+            {
+                // Get first Flickr photo object
+                JSONObject firstFlickrPhoto = flickrArray.getJSONObject(0);
 
-            // Get the farm id
-            String farmID = firstFlickrPhoto.getString("farm");
+                // Get the farm id
+                String farmID = firstFlickrPhoto.getString("farm");
 
-            // Get the server id
-            String serverID = firstFlickrPhoto.getString("server");
+                // Get the server id
+                String serverID = firstFlickrPhoto.getString("server");
 
-            // Get the photo id
-            String photoID = firstFlickrPhoto.getString("id");
+                // Get the photo id
+                String photoID = firstFlickrPhoto.getString("id");
 
-            // Get the secret value
-            String secret = firstFlickrPhoto.getString("secret");
+                // Get the secret value
+                String secret = firstFlickrPhoto.getString("secret");
 
-            // Form the url for the image
-            imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + ".jpg";
+                // Form the url for the image
+                imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + "_-.jpg";
+            }
+            else
+            {
+                imageURL = "No such photo";
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
