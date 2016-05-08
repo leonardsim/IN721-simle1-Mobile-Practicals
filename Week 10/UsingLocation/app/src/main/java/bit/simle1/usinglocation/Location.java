@@ -25,9 +25,13 @@ public class Location {
 
     private Bitmap cityImage;
 
+    private boolean imageURLFlag;
+
     //Constructor
     public Location()
     {
+        setImageURLFlag(true);
+
         setCityName("");
 
         setLatVal(0);
@@ -103,5 +107,13 @@ public class Location {
 
     public void setCityImage(Bitmap cityImage) {
         this.cityImage = cityImage;
+    }
+
+    public boolean isImageURLFlag() {
+        return imageURLFlag;
+    }
+
+    public void setImageURLFlag(boolean imageURLFlag) {
+        this.imageURLFlag = imageURLFlag;
     }
 }
