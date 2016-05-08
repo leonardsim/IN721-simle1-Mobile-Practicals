@@ -110,11 +110,10 @@ public class MainActivity extends AppCompatActivity {
         protected Location doInBackground(Void... params) {
 
             // Set a default empty value
-            String stringData = "[[]]";
-            String currentCity = "";
+            String stringData = null;
 
             // While it's empty, randomize the Longitude and Latitude
-            while (stringData.equals("[[]]"))
+            while (getCityInfo(stringData) == null)
             {
                 // Produces a random value for both Longitude and Latitude
                 currentLocation.GenerateRandomValues();
@@ -129,14 +128,17 @@ public class MainActivity extends AppCompatActivity {
                 stringData = getStringDataFromURL(urlString);
             }
 
+            // Declare and instantiate location
             Location l = new Location();
+
+            // Set the property with the city info
             l.setClosestCity(getCityInfo(stringData));
 
             // Get the image URL and use it to get the bitmap
             String imageURL = getImageURL(currentLocation.getCityName());
 
             // If the imageURL is equal to "No such photo" then set the flag to be false
-            // else
+            // else, set the city image property with the bitmap and set the flag to be true
             if (imageURL == "No such photo")
             {
                 l.setImageURLFlag(false);
@@ -250,16 +252,15 @@ public class MainActivity extends AppCompatActivity {
 
     private String getCityInfo(String stringData)
     {
-        String closestCity = "";
-        String cityName = "";
-        String countryCode = "";
+        String closestCity = null;
+        String cityName;
+        String countryCode;
 
         try {
 
-            if (stringData.equals("[[]]"))
+            if (stringData == null)
             {
-                cityName = "No such City";
-                countryCode = "??";
+                return null;
             }
             else
             {
@@ -267,16 +268,11 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject cityInfo = new JSONObject(stringData);
 
                 // Access the cityInfo to obtain the place and countryCode
-                cityName = cityInfo.getString("geoplugin_place");
-                countryCode = cityInfo.getString("geoplugin_countryCode");
+                cityName = cityInfo.optString("geoplugin_place");
+                countryCode = cityInfo.optString("geoplugin_countryCode");
 
                 currentLocation.setCityName(cityName);
                 currentLocation.setCountryCode(countryCode);
-
-                if (cityName == "" || countryCode == "")
-                {
-                    return "null";
-                }
             }
 
             // Concat the values obtained from JSON object
