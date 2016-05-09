@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                 String secret = firstFlickrPhoto.getString("secret");
 
                 // Form the url for the image
-                imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + "_-.jpg";
+                imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + "_.jpg";
             }
             else
             {

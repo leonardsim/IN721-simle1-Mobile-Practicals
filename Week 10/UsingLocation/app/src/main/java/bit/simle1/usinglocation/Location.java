@@ -30,8 +30,6 @@ public class Location {
     //Constructor
     public Location()
     {
-        setImageURLFlag(true);
-
         setCityName("");
 
         setLatVal(0);
