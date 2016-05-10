@@ -139,17 +139,17 @@ public class MainActivity extends AppCompatActivity {
 
             // If the imageURL is equal to "No such photo" then set the flag to be false
             // else, set the city image property with the bitmap and set the flag to be true
-            if (imageURL == "No such photo")
+            if (imageURL.equals("No such photo") || imageURL == null)
             {
                 l.setImageURLFlag(false);
             }
             else
             {
+                l.setImageURLFlag(true);
+
                 Bitmap cityImage = getBitmapImage(imageURL);
 
                 l.setCityImage(cityImage);
-
-                l.setImageURLFlag(true);
             }
 
             return l;
@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
             {
                 ivLocationImage.setImageResource(android.R.color.transparent);
                 tvFeedback.setText("This city has no images in Flickr");
-                //Toast.makeText(MainActivity.this, "This city has no images in Flickr", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -268,12 +267,12 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject cityInfo = new JSONObject(stringData);
 
                 // Access the cityInfo to obtain the place and countryCode
-                cityName = cityInfo.optString("geoplugin_place");
-                countryCode = cityInfo.optString("geoplugin_countryCode");
-
-                currentLocation.setCityName(cityName);
-                currentLocation.setCountryCode(countryCode);
+                cityName = cityInfo.getString("geoplugin_place");
+                countryCode = cityInfo.getString("geoplugin_countryCode");
             }
+
+            currentLocation.setCityName(cityName);
+            currentLocation.setCountryCode(countryCode);
 
             // Concat the values obtained from JSON object
             closestCity = cityName + ", " + countryCode;
@@ -326,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 String secret = firstFlickrPhoto.getString("secret");
 
                 // Form the url for the image
-                imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + "_.jpg";
+                imageURL = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + photoID + "_" + secret + ".jpg";
             }
             else
             {
