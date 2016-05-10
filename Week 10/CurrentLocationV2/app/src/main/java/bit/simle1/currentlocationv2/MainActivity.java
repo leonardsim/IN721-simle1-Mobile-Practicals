@@ -1,11 +1,17 @@
 package bit.simle1.currentlocationv2;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +47,23 @@ public class MainActivity extends AppCompatActivity {
         // Create button reference and set listener
         Button btnTeleport = (Button) findViewById(R.id.btnTeleport);
         btnTeleport.setOnClickListener(new SetLocationHandler());
+
+        // Create Location manager
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria defaultCriteria = new Criteria();
+
+        // Set Criteria specification
+        String providerName = LocationManager.NETWORK_PROVIDER;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        locationManager.requestLocationUpdates(providerName, 400, 1, new CustomLocationListener());
+
+
+        Location loc = locationManager.getLastKnownLocation(providerName);
     }
 
     // Event Handlers
@@ -52,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
             lat = location.getLatitude();
             lng = location.getLongitude();
 
+            AsyncDisplayNearestCityAlways APIThread = new AsyncDisplayNearestCityAlways();
+            APIThread.execute();
         }
 
         @Override
@@ -190,8 +215,8 @@ public class MainActivity extends AppCompatActivity {
         TextView tvLat = (TextView) findViewById(R.id.tvLat);
 
         // Set the text with the double values
-        tvLng.setText(precision.format(currentLocation.getLongVal()));
-        tvLat.setText(precision.format(currentLocation.getLatVal()));
+        tvLng.setText(precision.format(lng));
+        tvLat.setText(precision.format(lat));
     }
 
     private String getStringDataFromURL(String url)
