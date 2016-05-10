@@ -112,8 +112,10 @@ public class MainActivity extends AppCompatActivity {
             // Set a default empty value
             String stringData = null;
 
+            String checkCity = getCityInfo(stringData);
+
             // While it's empty, randomize the Longitude and Latitude
-            while (getCityInfo(stringData) == null)
+            while (checkCity == null)
             {
                 // Produces a random value for both Longitude and Latitude
                 currentLocation.GenerateRandomValues();
@@ -126,33 +128,34 @@ public class MainActivity extends AppCompatActivity {
 
                 // Update the stringData with the new location
                 stringData = getStringDataFromURL(urlString);
+
+                checkCity = getCityInfo(stringData);
             }
 
-            // Declare and instantiate location
-            Location l = new Location();
-
             // Set the property with the city info
-            l.setClosestCity(getCityInfo(stringData));
+            currentLocation.setClosestCity(checkCity);
+
+            String[] cCity = checkCity.split(",");
 
             // Get the image URL and use it to get the bitmap
-            String imageURL = getImageURL(currentLocation.getCityName());
+            String imageURL = getImageURL(cCity[0]);
 
             // If the imageURL is equal to "No such photo" then set the flag to be false
             // else, set the city image property with the bitmap and set the flag to be true
             if (imageURL.equals("No such photo") || imageURL == null)
             {
-                l.setImageURLFlag(false);
+                currentLocation.setImageURLFlag(false);
             }
             else
             {
-                l.setImageURLFlag(true);
+                currentLocation.setImageURLFlag(true);
 
                 Bitmap cityImage = getBitmapImage(imageURL);
 
-                l.setCityImage(cityImage);
+                currentLocation.setCityImage(cityImage);
             }
 
-            return l;
+            return currentLocation;
         }
 
         @Override
@@ -270,9 +273,6 @@ public class MainActivity extends AppCompatActivity {
                 cityName = cityInfo.getString("geoplugin_place");
                 countryCode = cityInfo.getString("geoplugin_countryCode");
             }
-
-            currentLocation.setCityName(cityName);
-            currentLocation.setCountryCode(countryCode);
 
             // Concat the values obtained from JSON object
             closestCity = cityName + ", " + countryCode;
