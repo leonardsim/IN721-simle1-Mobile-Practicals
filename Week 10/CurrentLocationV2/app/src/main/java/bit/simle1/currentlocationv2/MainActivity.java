@@ -3,6 +3,8 @@ package bit.simle1.currentlocationv2;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     Placement currentLocation;
 
+    double lat;
+    double lng;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Event Handlers
+    public class CustomLocationListener implements LocationListener
+    {
+
+        @Override
+        public void onLocationChanged(Location location) {
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    }
+
     public class SetLocationHandler implements View.OnClickListener
     {
         @Override
@@ -77,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // URL that will display the location in JSON format
                 String urlString = "http://www.geoplugin.net/extras/location.gp?"
-                        + "lat=" + currentLocation.getLatVal() + "&"
-                        + "long=" + currentLocation.getLongVal() + "&"
+                        + "lat=" + lat + "&"
+                        + "long=" + lng + "&"
                         + "format=json";
 
                 // Update the stringData with the new location
