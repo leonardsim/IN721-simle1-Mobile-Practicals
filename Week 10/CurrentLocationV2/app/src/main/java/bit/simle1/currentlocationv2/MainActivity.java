@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Criteria defaultCriteria = new Criteria();
 
         // Set Criteria specification
-        String providerName = LocationManager.NETWORK_PROVIDER;
+        String providerName = locationManager.getBestProvider(defaultCriteria, false);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
