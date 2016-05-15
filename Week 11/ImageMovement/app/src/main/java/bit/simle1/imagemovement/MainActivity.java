@@ -4,8 +4,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,9 +15,12 @@ public class MainActivity extends AppCompatActivity {
     SensorManager sm;
     Sensor accelerometer;
 
+    // Declare ImageView
+    ImageView ivBall;
+
     // ImageView x,y-coordinates
-    int x;
-    int y;
+    float ivX;
+    float ivY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Get access to the device's sensors
         sm = (SensorManager)MainActivity.this.getSystemService(SENSOR_SERVICE);
+
+        // Get reference
+        ivBall = (ImageView) findViewById(R.id.ivBall);
 
         // Get the default sensor for a given type
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -35,7 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
 
+            // Increment the values
+            ivX += x;
+            ivY += y;
+
+            // Set the X and Y coordinates
+            ivBall.setX(ivX);
+            ivBall.setY(ivY);
+
+            // Redraws the image view
+            ivBall.invalidate();
         }
 
         @Override
