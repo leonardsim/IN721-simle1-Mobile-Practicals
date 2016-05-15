@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     float ivX;
     float ivY;
 
+    // Height and Width of screen
+    int height;
+    int width;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Get reference
         ivBall = (ImageView) findViewById(R.id.ivBall);
+
+        // Get the width and height of screen at runtime
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        height = displaymetrics.heightPixels;
+        width = displaymetrics.widthPixels;
+
+        // Set the imageView's initial location
+        ivX = (width / 2) - 50;
+        ivY = (height / 2) - 50;
+        ivBall.setX(ivX);
+        ivBall.setY(ivY);
 
         // Get the default sensor for a given type
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -46,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
             float x = event.values[0];
             float y = event.values[1];
 
+            float velX = x * 10 * -1;
+            float velY = y * 10;
+
             // Increment the values
-            ivX += x;
-            ivY += y;
+            ivX += velX;
+            ivY += velY;
 
             // Set the X and Y coordinates
             ivBall.setX(ivX);
@@ -56,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Redraws the image view
             ivBall.invalidate();
+
         }
 
         @Override
